@@ -1,0 +1,33 @@
+/*
+    Example home grown drone state machine
+*/
+
+events
+  requestMeds    REQM
+  reachedTarget  RETA
+  crashed        CRAS
+  return         RTN
+end
+
+commands
+  holdCmd      HLDC
+  launchCmd    LAUC
+  returnCmd    RTNC
+end
+
+state waiting
+    actions {holdCmd}
+    requestMeds => delivering
+end
+
+state delivering
+    actions {returnCmd}
+    reachedTarget => returning
+    crashed => waiting
+    return => waiting
+end
+
+state returning
+    actions {returnCmd}
+    reachedTarget => waiting
+end

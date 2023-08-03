@@ -1,0 +1,60 @@
+package 'Drone Delivery System Black Box Spec' {
+	import ScalarValues::*;
+	
+    item def medicalSupplies;
+    item def medicalSuppliesTransit;
+    item def medRequest;
+        
+        part DeliverySystemBlackBox {
+        
+            part DroneDeliverySystem {
+                port medicineOut: medicineDropoff;
+                port medicineIn: medicineDropoff;
+            }
+            part HubHospital {
+                port medicineSend: medicineDropoff;
+                port medicineRequestReceived: medicineReq;
+            }
+            part DeliveryHospital[2..5] {
+                port medicinePickup: medicineDropoff;
+                port medicineRequest: medicineReq;
+            }
+      
+            port def medicineDropoff {
+                //flow properties
+                //attribute medicine : Real;
+                out item medicineSent: 'Drone Delivery System Black Box Spec'::medicalSupplies;
+                in item medicineReceive: 'Drone Delivery System Black Box Spec'::medicalSupplies;
+            }
+
+            port def medicineReq {
+                //flow properties
+                in item Fulfill: 'Drone Delivery System Black Box Spec'::medRequest;
+                out item Request: 'Drone Delivery System Black Box Spec'::medRequest;
+            }
+            
+            interface def MedicineInterface {
+                end medOut : medicineDropoff;
+                end medIn : ~medicineDropoff;
+            }
+        
+        flow medicalSupplies
+               from HubHospital::medicineSend  
+                 to DroneDeliverySystem::medicineIn;
+            
+        flow medicalSuppliesTransit         
+                from DroneDeliverySystem::medicineOut  
+                  to DeliveryHospital::medicinePickup;
+            
+        flow medRequest
+                from DeliveryHospital::medicineRequest  
+                  to HubHospital::medicineRequestReceived;
+        flow HubHospital::medicineSend to DeliveryHospital::medicinePickup;
+            
+        
+        connect DroneDeliverySystem::medicineIn to HubHospital::medicineSend;
+        connect DroneDeliverySystem::medicineOut to DeliveryHospital::medicinePickup;
+        connect DeliveryHospital::medicineRequest to HubHospital::medicineRequestReceived;
+            
+        }
+}

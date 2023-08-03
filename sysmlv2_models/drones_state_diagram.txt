@@ -1,0 +1,76 @@
+package SignalDefinitions{
+    attribute def MedicalEventOccur;
+    attribute def MedicineDelivered;
+    attribute def DroneAvailable;
+    attribute def DroneFlying;
+    attribute def DroneReachedRuralHospital;
+    attribute def DroneToRepair;
+    attribute def every1s;
+    attribute def selfTestFail;
+    
+}
+package StateDefinitions{
+    import SignalDefinitions::*;
+ 	part def Drone {
+		selfTestResult : ScalarValues::Boolean;
+	}
+	part def CentralHub;
+    
+	action performSelfTest(in drone: Drone);
+    action emergencyLanding();
+    action failureDetected();
+	
+    state def DroneStates (operatingDrone : Drone);
+		
+    state droneState : DroneStates(operatingDrone : Drone, hub : CentralHub) { 
+        entry; then idle;
+    
+        state idle;
+        transition idle_to_waiting
+            first idle
+            accept MedicalEventOccur
+            then waiting;
+    
+        state waiting;
+        transition waiting_to_pickUp
+            first waiting
+            accept DroneAvailable
+            then pickUp;
+        
+        state pickUp;
+            accept DroneFlying
+            then flying;
+        
+        state flying{
+            state selfTest{
+               // do action performSelfTest(selfTestResult);
+                entry performSelfTest(in drone = operatingDrone);
+            }
+                //if selfTestResult
+                    //do send stopDrone()
+                //accept selfTestResult
+                
+            //state selfTest;
+            accept every1s
+            then selfTest;
+            
+            accept selfTestFail
+            if operatingDrone::selfTestResult
+            do send emergencyLanding() to hub
+            then stopDrone;
+            state stopDrone;
+        }
+       
+            
+            
+        transition flying_to_delivered
+            first flying
+            accept DroneReachedRuralHospital
+            then delivered;
+        
+        state delivered;
+        transition delivered_to_idle
+            first delivered
+            then idle;
+     }
+}

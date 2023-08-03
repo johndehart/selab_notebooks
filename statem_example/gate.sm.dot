@@ -1,0 +1,15 @@
+
+    digraph textX {
+    fontname = "Bitstream Vera Sans"
+    fontsize = 8
+    node[
+        shape=record,
+        style=rounded
+    ]
+    edge[dir=black,arrowtail=empty]
+140680995288544[label="{-\> locked|lockGate}"]
+140680995288544 -> 140680995290944 [label="coinInserted"]
+140680995290944[label="{unlocked|unlockGate}"]
+140680995290944 -> 140680995288544 [label="passTrough"]
+
+}

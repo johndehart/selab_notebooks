@@ -1,0 +1,47 @@
+
+    digraph textX {
+    fontname = "Bitstream Vera Sans"
+    fontsize = 8
+    node[
+        shape=record,
+        style=filled,
+        fillcolor=aliceblue
+    ]
+    nodesep = 0.3
+    edge[dir=black,arrowtail=empty]
+
+
+94401979554736[ label="{StateMachine|}"]
+
+94401979722800[ label="{Event|name: SMID\lcode: ID\l}"]
+
+94401979728928[ label="{Command|name: SMID\lcode: ID\l}"]
+
+94401979734464[ label="{State|name: ID\l}"]
+
+94401979544256[ label="{Transition|}"]
+
+
+
+94401979554736 -> 94401979722800[arrowtail=diamond, dir=both, headlabel="events 1..*"]
+94401979554736 -> 94401979722800[headlabel="resetEvents 1..*"]
+94401979554736 -> 94401979728928[arrowtail=diamond, dir=both, headlabel="commands 1..*"]
+94401979554736 -> 94401979734464[arrowtail=diamond, dir=both, headlabel="states 1..*"]
+94401979734464 -> 94401979728928[headlabel="actions 1..*"]
+94401979734464 -> 94401979544256[arrowtail=diamond, dir=both, headlabel="transitions 1..*"]
+94401979544256 -> 94401979722800[headlabel="event "]
+94401979544256 -> 94401979734464[headlabel="to_state "]
+match_rules [ shape=plaintext, label=< <table>
+	<tr>
+		<td><b>Comment</b></td><td>\/\*(.|\n)*?\*\/</td>
+	</tr>
+	<tr>
+		<td><b>Keyword</b></td><td>end|events|resetEvents|state|actions</td>
+	</tr>
+	<tr>
+		<td><b>SMID</b></td><td>Not(Keyword) ID</td>
+	</tr>
+</table> >]
+
+
+}

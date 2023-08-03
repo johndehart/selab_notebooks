@@ -1,0 +1,114 @@
+package SupplyMedicalSupportSystem{
+    /*doc BDD and IBD */
+    	import ScalarValues::*;
+    //item def Power;
+    part RuralHospitalSupport{
+ 		part droneSystem[1..*]{
+           part avionics{
+              part wings{
+                  port startWingsRotation;
+              }
+              //part cockpit;
+              part engine{
+                  port engineRunIn;
+                  port getEnginePower;
+              }
+              part propeller{
+                  port getPropellerPower;
+                  port openWings;
+              }
+              part processor{
+                  port wakeupDrone; 
+                  port engineRunCmd;
+                  port propellerStartCmd;
+                  port setupPath;
+                  port getDestInfo;
+                  port heartbeatSignalSend;
+                  port fetchMedicines;
+                  port deliverMedicines;
+              }
+              connect processor::engineRunCmd to engine::engineRunIn;
+              connect processor::propellerStartCmd to propeller::openWings;
+              connect propeller::openWings to wings::startWingsRotation;
+              
+           }
+           part commAndControl{
+                part gps;
+           }
+           part power{
+               part battery[1..2]{
+                   port powerOut;
+               }
+               //part userInterface;
+           } 
+           part payload{
+               port liftObject;
+           }
+           connect power::battery::powerOut to avionics::propeller::getPropellerPower;
+           connect power::battery::powerOut to avionics::engine::getEnginePower;
+           connect avionics::processor::fetchMedicines to payload::liftObject;
+           connect avionics::processor::setupPath to commAndControl::gps;
+           comment about power /* Wakeup on command from Central Hub */
+           comment about commAndControl /* Gets destination information, setup route */
+           comment about droneSystem /* Flies to Central Hub, Picks Medicines, delivers at Rural Hospital */
+           
+           //stream of Power from power::battery::powerOut::providePower to avionics::propeller::battInput::inPower;
+       }
+		part ruralHospitals[2..5]{
+            //part inventory;
+            part communication{
+                port Order;
+                port sendOrder;
+                port rxMedicines;
+            }
+            part personnel{
+                port commOrder;
+                port getMedicines;
+            }
+            connect personnel::commOrder to communication::Order;
+            connect communication::rxMedicines to personnel::getMedicines;
+            comment about ruralHospitals /* Personnel places medicinal support order to central Hub */
+            comment about personnel /*Collects delivered medicines */
+        }
+        
+		//
+		part centralHub{
+            part centralCommunication{
+                port orderRx;
+                port startCmdDrone;
+                port wakeDrone;
+                port sendDestData;
+            }
+            //part inventory;
+            part processor{
+                port receivedOrder;
+                port prepMedicine;
+                port commDroneCmd;
+                port medReady;
+            }
+            part tracker{
+                //port currentLoc;
+                port rxMonitorSignal;
+            }
+            part medicines[1..*]{
+                part equipment;
+                port rxCommand;
+                port packMedicine;
+            }
+            connect centralCommunication::orderRx to  processor::receivedOrder;
+            connect processor::prepMedicine to medicines::rxCommand;
+            connect medicines::packMedicine to processor::medReady;
+            connect processor::commDroneCmd to centralCommunication::startCmdDrone;
+            comment about centralHub /* Central Hub receives order, asks Drone to be ready, makes medicine prepration */
+        }
+        connect ruralHospitals::communication::sendOrder to centralHub::centralCommunication::orderRx;
+        connect centralHub::centralCommunication::wakeDrone to droneSystem::avionics::processor::wakeupDrone;
+        connect centralHub::centralCommunication::sendDestData to droneSystem::avionics::processor::getDestInfo;
+        connect droneSystem::avionics::processor::heartbeatSignalSend to centralHub::tracker::rxMonitorSignal;
+        connect centralHub::processor::medReady to droneSystem::avionics::processor::fetchMedicines;
+        connect droneSystem::avionics::processor::deliverMedicines to ruralHospitals::communication::rxMedicines;
+        //connect centralCommunication::orderRx to  
+        //part def Engine;
+        //part def Sensor[1..*];
+   }
+}

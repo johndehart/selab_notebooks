@@ -1,0 +1,112 @@
+	import ScalarValues::*;
+//import RuralHospitalSupport::*;
+
+//		part hospitals : RuralHospitals[2..5];
+
+action def randomlyGenerateNeed;
+action def pickMedicines(out Payload:Real);
+action def loadPayload(in Payload:Real, out Payload:Real);
+action def informCentralHub;
+action def sendDrone;
+action def trackDroneFromHub;
+action def trackDroneFromHospital;
+action def cellular_trackDrone;
+action def landDrone;
+action def unloadPayload(out Medicines:Real);
+action def deliverToNurse(in Medicines:Real, out Medicines:Real);
+action def returnToCentralHub;
+action def updateInventoryStoreData;
+action def checkBatteryLevel;
+action def chargeBattery;
+action def trackDrone;
+action def checkConnectionStatus;
+action def reestablishConnection;
+action def continueFlight;
+action def pickPayload;
+action def packageBlood(out Blood:Real);
+action def pickMedicine(out Medicines:Real);
+item def batteryLevel;
+item def connectionStatus;
+item def payloadType;
+
+    
+action def supplyMedicines {
+    first start;
+    then action RandomlyGenerateNeed:randomlyGenerateNeed;
+    
+    then merge pickCorrectPayload;
+    then action PickPayload:pickPayload {
+        out item PayloadType:payloadType;
+    }
+    
+    then decide;
+    if PickPayload::PayloadType == "Blood" then PackageBlood;
+    if PickPayload::PayloadType == "Medicine" then PickMedicine;
+   
+    action PackageBlood:packageBlood{out payload:Real; flow PackageBlood::payload to LoadPayload::payloadIn;}
+    succession PackageBlood then LoadPayload;
+    
+    action PickMedicine:pickMedicine{out payload:Real; flow PickMedicine::payload to LoadPayload::payloadIn;}
+     succession PickMedicine then LoadPayload;
+    
+action LoadPayload:loadPayload (in payloadIn stream from PickMedicine::payload);
+    then action UpdateInventoryStoreData:updateInventoryStoreData;
+    then action InformCentralHub:informCentralHub;
+    then action SendDrone:sendDrone;
+    
+    then fork;
+    then TrackDrone;
+    then verifyConnectionStatus;
+    
+    action TrackDrone:trackDrone;
+    then fork;
+        then LOS_TrackDroneFromHub;
+        then Cellular_TrackDrone;
+        then LOS_TrackDroneFromHospital;
+    
+        action LOS_TrackDroneFromHub:trackDroneFromHub;
+        then joinNode;
+        action Cellular_TrackDrone:cellular_trackDrone;
+        then joinNode;
+        action LOS_TrackDroneFromHospital:trackDroneFromHospital;
+        then joinNode;
+    
+    merge verifyConnectionStatus;
+    then action CheckConnectionStatus:checkConnectionStatus {
+        out item ConnectionStatus:connectionStatus;
+    }
+    
+    then decide;
+    if CheckConnectionStatus::ConnectionStatus == "True" then ContinueFlight;
+    if CheckConnectionStatus::ConnectionStatus == "False" then ReestablishConnection;
+   
+    action ReestablishConnection:reestablishConnection;
+    then verifyConnectionStatus;
+    
+    action ContinueFlight:continueFlight;
+    then joinNode;
+    join joinNode;
+    
+    then action LandDrone:landDrone;
+    then action UnloadPayload:unloadPayload {out medicines:Real; flow UnloadPayload::medicines to DeliverToNurse::medicinesIn;} //(in medicines stream from LoadPayload::medicinesOut);
+    // {out medicinesOut:Real;flow LoadPayload::medicinesOut to UnloadPayload::medicines;}
+    then action DeliverToNurse:deliverToNurse(in medicinesIn stream from UnloadPayload::medicines);
+
+    
+    then merge verifyBatteryLevel;
+    then action CheckBatteryLevel:checkBatteryLevel {
+        out item BatteryLevel:batteryLevel;
+    }
+    
+    then decide;
+    if CheckBatteryLevel::BatteryLevel == "Sufficient" then ReturnToCentralHub;
+    if CheckBatteryLevel::BatteryLevel == "Insufficient" then ChargeBattery;
+   
+    action ChargeBattery:chargeBattery;
+    then verifyBatteryLevel;
+    
+    action ReturnToCentralHub:returnToCentralHub;
+
+    then done;
+    //allocate RuralHospitals to DetectLack;
+}

@@ -1,0 +1,54 @@
+
+turtles-own
+[ #msgQ2          ;; the message queue
+  #msg-id2        ;; the agent name/id for messaging
+]
+
+
+to make-msgQ2 [#id]
+  set #msg-id2 #id
+  set #msgQ2 []
+end
+
+
+to-report msg-waiting2?
+  report (not empty? #msgQ2)
+end
+
+
+to-report get-msg2
+  let #tmp (first #msgQ2)
+  set #msgQ2 (but-first #msgQ2)
+  report #tmp
+end
+
+
+to send-msg2 [#who-to #msg]
+  let #who-from self
+  ask turtles with [#msg-id2 = #who-to]
+  [ set #msgQ2 (lput (list #who-from #msg) #msgQ2)
+  ]
+end
+
+
+to broadcast2 [#breed-to #msg]
+  let #who-from self
+  set #msg (list #who-from #msg)
+  ask turtles with [breed = #breed-to]
+  [ set #msgQ2 (lput #msg #msgQ2)
+  ]
+end
+
+
+to flush-msgQ2 [#id]
+  set #msgQ2 []
+end
+
+
+to flush-all-msgQs2
+  ask turtles
+  [ set #msgQ2 []
+  ]
+end
+
+

@@ -1,0 +1,47 @@
+
+
+to wiggle
+  right 45 - (random 90)
+end
+
+
+to-report nearest-of [#breed]
+  report min-one-of #breed [distance myself]
+end
+
+to-report nearest-of-xy [#breed #corx #cory]
+  report min-one-of #breed [distancexy #corx #cory]
+end
+
+to-report trigger [#prob]
+  report (random 1000) < (#prob * 10)
+end
+
+
+
+to-report mutate [#val #delta]
+  let #mutator (random (#delta * 2 + 1)) - #delta
+  report (#val + #mutator)
+end
+
+
+
+to-report smooth-value [#last #inc #alpha]
+  ;
+  ; used in plotting to smooth graph data
+  ; #alpha is the smoothing value 0-1
+  ; larger #alphas are smoother, 0: no smoothing, 1: no recent value
+  ;
+  set #alpha (bounds 0 #alpha 1)
+  let #new (#alpha * #last + (1 - #alpha) * #inc)
+  report #new
+end
+
+
+
+to-report bounds [#lo #x #hi]
+  ;
+  ; return #x bounded by #lo & #hi
+  ;
+  report (min (list #hi (max (list #lo #x))))
+end

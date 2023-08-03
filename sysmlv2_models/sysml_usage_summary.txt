@@ -1,0 +1,76 @@
+package 'Development System - SysML Usage Summary'{
+    
+    doc /* Based on - A Practical Approach For Modellins Submarine Subsystem Architecture In SysML, Pierce and Friedenthal*/
+        comment /* The concept of the SysML devlopment enviorment includes three (3) major parts - Modeling, Analysis, and Visulaiztion. */
+        
+    part 'Model Script'{
+        comment /* We have to start with the local SysML Modeling Language -- Right??? */
+    }
+    
+    part 'API' {
+        comment /* The API permmits remote storage of local models after a build and validation event. The API and can return a query on a versioned model, part, etc... in a JSON format. */
+    }
+    
+    part Data;
+    part Trades;
+    part Design;
+    
+    action 'System Analysis' {
+        comment /* 1 - System Analysis - How To
+        
+        # Validate and Publish the 'raw' model to the API, Pull the JSON from the API and do some work (easy to work with a JSON)
+        
+        # 'OR' Build a set of tools to parse the 'raw' model locally to convert to JSON (or any necessary format). (Nesscesary now but not in the future... once we command the API)
+        
+        # Use pyMBE+ to develope systems engienring trades (Architecture + Parts(Attributes) + Part Library(Values) = Configurations) [Not there yet]
+        */
+            
+        comment /* 2 - System Analysis - API Issues and Mitigation
+        
+        # There is some overhead accociated with an API. What happens when the API is down? Why push then pull everytime... seems redundant as some level.
+        
+        *** Will need Redundant APIs
+        
+        *** How would one create a model from say (get all parts that are blue) and then link them in a particular way? Its avalible in the API and the 'raw' models... but which one do I choose? (Why have the sysml model at all?)
+        
+        *** The integration between the 'raw' model and the API model only exist in one direction.
+        
+        *** Consider release of the JSON to the local enviorment at publish (https://groups.google.com/g/sysml-v2-release/c/zd7Mvi8YymQ)
+        
+        # The unidirectionality make the SysML model awkward to work with. To use the API you have to jump out look around and then pull down a JSON and somehow convert it to the SysML syntax???
+        
+        # Consider creating a set of tools to parse the 'raw' model locally to convert to an alterante format or push to a database (or any necessary format). 
+        *** This begs the question why use the SysML syntax at all? Why not just build the models in JSON format and the bidirctionality is already there for the user at the local level and the new 'tools' are not necessary.
+        
+        */
+        connect Data to 'System Analysis';
+        connect Trades to 'System Analysis';
+        connect Design to 'System Analysis';
+    }
+    
+    action Modeling{
+        comment /* SysML Modeling Language 
+        ** Currently only using the 'raw' scripting
+        ** Apparently everying that can be performed in the 'raw' can be perforemd in the API
+        */
+        connect 'Model Script'[1..*] to Modeling;
+        connect 'API'[0..*] to Modeling;
+        connect Modeling to 'System Analysis';
+        connect Modeling to Visualization;
+        
+    }
+    
+    action Visualization{
+        comment /* 3 - Vizualization and Presetnation Layer must be operator friendly, configurable, and most of all Present Well...
+        
+        ** Fairly limimted at this point
+        
+        ** Functionality similar too Magic Draw seems like a must for the general model developer
+        
+            *** Block dragging in this case is a good thing
+            
+        ** Must seemlessly integrate into the development system
+        */
+    }
+    
+}

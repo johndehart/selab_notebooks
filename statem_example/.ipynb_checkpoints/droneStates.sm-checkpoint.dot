@@ -1,0 +1,19 @@
+
+    digraph textX {
+    fontname = "Bitstream Vera Sans"
+    fontsize = 8
+    node[
+        shape=record,
+        style=rounded
+    ]
+    edge[dir=black,arrowtail=empty]
+140680994863664[label="{-\> waiting|holdCmd}"]
+140680994863664 -> 140680994861504 [label="requestMeds"]
+140680994861504[label="{delivering|returnCmd}"]
+140680994861504 -> 140680994862272 [label="reachedTarget"]
+140680994861504 -> 140680994863664 [label="crashed"]
+140680994861504 -> 140680994863664 [label="return"]
+140680994862272[label="{returning|returnCmd}"]
+140680994862272 -> 140680994863664 [label="reachedTarget"]
+
+}

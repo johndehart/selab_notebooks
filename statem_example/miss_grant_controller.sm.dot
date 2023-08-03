@@ -1,0 +1,23 @@
+
+    digraph textX {
+    fontname = "Bitstream Vera Sans"
+    fontsize = 8
+    node[
+        shape=record,
+        style=rounded
+    ]
+    edge[dir=black,arrowtail=empty]
+140680995720208[label="{-\> idle|unlockDoor\nlockPanel}"]
+140680995720208 -> 140680995721072 [label="doorClosed"]
+140680995721072[label="{active|}"]
+140680995721072 -> 140680995719440 [label="drawerOpened"]
+140680995721072 -> 140680995719392 [label="lightOn"]
+140680995719440[label="{waitingForLight|}"]
+140680995719440 -> 140680995706528 [label="lightOn"]
+140680995719392[label="{waitingForDrawer|}"]
+140680995719392 -> 140680995706528 [label="drawerOpened"]
+140680995706528[label="{unlockedPanel|unlockPanel\nlockDoor}"]
+140680995706528 -> 140680995720208 [label="panelClosed"]
+reset_events [label="{Reset Events|doorOpened}", style=""]
+
+}
