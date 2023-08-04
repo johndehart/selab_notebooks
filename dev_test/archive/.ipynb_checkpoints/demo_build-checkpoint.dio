@@ -1,0 +1,59 @@
+<mxGraphModel dx="722" dy="709" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" background="#ffffff">
+<root>
+
+<mxCell id="0"/>
+<mxCell id="1" parent="0"/>
+<mxCell id="6" style="edgeStyle=orthogonalEdgeStyle; rounded=0; html=1; entryX=0.5; entryY=0; jettySize=auto; orthogonalLoop=1;" edge="1" parent="1" source="2" target="4">
+<mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="9" style="edgeStyle=orthogonalEdgeStyle; rounded=0; html=1; entryX=0.5; entryY=0; jettySize=auto;orthogonalLoop=1;" edge="1" parent="1" source="2" target="7">
+<mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="2" value="&lt;p style=&quot;margin: 0px ; margin-top: 6px ; text-align: center&quot;&gt;&lt;b&gt;Drone&lt;/b&gt;&lt;/p&gt;&lt;hr&gt;&lt;p style=&quot;margin: 0px ; margin-left: 8px&quot;&gt;Mass : Real&lt;br&gt;&lt;/p&gt;" style="align=left;overflow=fill;html=1;" vertex="1" parent="1">
+<mxGeometry x="10" y="10" width="180" height="90" as="geometry"/>
+</mxCell>
+
+<mxCell id="3" value="" style="shape=component;jettyWidth=8;jettyHeight=4;" vertex="1" parent="2">
+<mxGeometry x="1" width="20" height="20" relative="1" as="geometry">
+<mxPoint x="-24" y="4" as="offset"/>
+</mxGeometry>
+</mxCell>
+
+<mxCell id="12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;jettySize=auto;orthogonalLoop=1;" edge="1" parent="1" source="4" target="10">
+<mxGeometry relative="1" as="geometry"/>
+</mxCell>
+
+<mxCell id="4" value="&lt;p style=&quot;margin: 0px ; margin-top: 6px ; text-align: center&quot;&gt;&lt;b&gt;Motor&lt;/b&gt;&lt;/p&gt;&lt;hr&gt;&lt;p style=&quot;margin: 0px ; margin-left: 8px&quot;&gt;Power : Real&lt;br&gt;Voltage: Real&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 8px&quot;&gt;Mass : Real&lt;/p&gt;" style="align=left;overflow=fill;html=1;" vertex="1" parent="1">
+<mxGeometry x="110" y="200" width="180" height="90" as="geometry"/>
+</mxCell>
+
+<mxCell id="5" value="" style="shape=component;jettyWidth=8;jettyHeight=4;" vertex="1" parent="4">
+<mxGeometry x="1" width="20" height="20" relative="1" as="geometry">
+<mxPoint x="-24" y="4" as="offset"/>
+</mxGeometry>
+</mxCell>
+
+<mxCell id="7" value="&lt;p style=&quot;margin: 0px ; margin-top: 6px ; text-align: center&quot;&gt;&lt;b&gt;Battery&lt;/b&gt;&lt;/p&gt;&lt;hr&gt;&lt;p style=&quot;margin: 0px ; margin-left: 8px&quot;&gt;Mass : Type&lt;br&gt;Rating : Amp Hours&lt;/p&gt;" style="align=left;overflow=fill;html=1;" vertex="1" parent="1">
+<mxGeometry x="330" y="200" width="180" height="90" as="geometry"/>
+</mxCell>
+
+<mxCell id="8" value="" style="shape=component;jettyWidth=8;jettyHeight=4;" vertex="1" parent="7">
+<mxGeometry x="1" width="20" height="20" relative="1" as="geometry">
+<mxPoint x="-24" y="4" as="offset"/>
+</mxGeometry>
+</mxCell>
+
+<mxCell id="10" value="&lt;p style=&quot;margin: 0px ; margin-top: 6px ; text-align: center&quot;&gt;&lt;b&gt;Stator&lt;/b&gt;&lt;/p&gt;&lt;hr&gt;&lt;p style=&quot;margin: 0px ; margin-left: 8px&quot;&gt;Mass : Real&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 8px&quot;&gt;Slots : Real&lt;/p&gt;&lt;p style=&quot;margin: 0px ; margin-left: 8px&quot;&gt;TurnsPerSlot : Real&lt;/p&gt;" style="align=left;overflow=fill;html=1;comic=0;rounded=0;glass=0;" vertex="1" parent="1">
+<mxGeometry x="110" y="350" width="180" height="90" as="geometry"/>
+</mxCell>
+
+<mxCell id="11" value="" style="shape=component;jettyWidth=8;jettyHeight=4;" vertex="1" parent="10">
+<mxGeometry x="1" width="20" height="20" relative="1" as="geometry">
+<mxPoint x="-24" y="4" as="offset"/>
+</mxGeometry>
+</mxCell>
+
+</root>
+</mxGraphModel>
