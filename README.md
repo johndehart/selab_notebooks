@@ -7,8 +7,7 @@ John DeHart
 
 Folder List:
 - presentation_example (ASE6104 Presentation) - Self explanatiory
-  - GoTo http://localhost:8889/selab/user/admin/tree
-  - Open: Final_Capstone_Presentation.ipynb
+  - Open: [Final_Capstone_Presentation.ipynb](http://localhost:8889/selab/user/admin/notebooks/selab_notebooks.git/presentation_example/Final_Capstone_Presentation.ipynb)
   - Press: ALT + R to view as slides)
 - senstivity_study - Example netlogo + python senstivity study (Setup not complete yet...)
 - statem_example - textx example of a state machine
